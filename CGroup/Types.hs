@@ -6,9 +6,12 @@
 --
 
 module CGroup.Types
-    ( CGroup
+    (
+    -- * CGroup
+      CGroup
     , cgroup
     , cgroupPath
+    -- * Other types
     , ProcessID
     ) where
 
@@ -16,18 +19,16 @@ import Data.Monoid
 import qualified System.FilePath as FP
 
 
--- | A 'CGroup' is defined by a mount point and a cgroup name.
---
--- The mount point specifies where the cgroup hierarchy is mounted.
--- The cgroup name is a 'FilePath' relative to the mount point.
+-- | A 'CGroup' is defined by two 'FilePath's, a mount point and a cgroup
+-- name.  The mount point specifies where the cgroup hierarchy is mounted.
+-- The cgroup name is a directory, relative to the mount point.
 data CGroup = CGroup { mountPoint, cgroupName :: FilePath }
   deriving Show
 
 
--- | @'cgroup' mountPoint cgroupName@ is a smart constructor for 'CGroup'.
---
--- It will return 'Nothing' if @cgroupName@ could point outside
--- @mountPoint@ in order to prevent directory traversal attacks.
+-- | Smart constructor. Takes a mount point and a cgroup name.
+-- It will return 'Nothing' if the cgroup could point outside the mount point,
+-- i.e. if the cgroup name is an absolute path, or contains @".."@.
 cgroup :: FilePath -> FilePath -> Maybe CGroup
 cgroup mp0 cgn0
     | ".." `elem` parts = Nothing
@@ -41,11 +42,10 @@ cgroup mp0 cgn0
     normaliseCGroupName = FP.dropTrailingPathSeparator . FP.normalise
 
 
--- | @'cgroupPath' g@ returns the absolute 'FilePath' of cgroup @g@.
+-- | Path of a cgroup's tasks file.
 cgroupPath :: CGroup -> FilePath
 cgroupPath CGroup { mountPoint = mp, cgroupName = cgn } =
     mp <> cgn
 
 
--- | A 'ProcessID' defines a task / process.
 type ProcessID = Int

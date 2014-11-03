@@ -25,19 +25,19 @@ import System.IO.Streams.Attoparsec (parseFromStream)
 import System.IO.Streams.File (withFileAsInput)
 
 
--- | @'createCGroup' g@ creates a new cgroup @g@.
+-- | Create a new cgroup.
 createCGroup :: CGroup -> IO ()
 createCGroup =
     createDirectory . cgroupPath
 
 
--- | @'classifyTask' g pid@ places task @pid@ into cgroup @g@.
+-- | Places a task into a cgroup.
 classifyTask :: ProcessID -> CGroup -> IO ()
 classifyTask pid g =
     writeFile (tasksFile g) (show pid)
 
 
--- | @'listTasks' g@ returns tasks of cgroup @g@.
+-- | Retrieve the tasks of a cgroup.
 listTasks :: CGroup -> IO (Set ProcessID)
 listTasks g =
     withFileAsInput (tasksFile g) $ parseFromStream tasksParser
