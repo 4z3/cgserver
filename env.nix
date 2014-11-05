@@ -10,7 +10,9 @@ let
   ];
 
   extraCmds = ''
-    export HISTFILE="\$HOME/.history/env-${name}"
+    if test -d "\$HOME/.history"; then
+      export HISTFILE="\$HOME/.history/env-${name}"
+    fi
     $(grep export ${hsEnv.outPath}/bin/ghc)
   '';
 
