@@ -16,7 +16,7 @@ let
 
   hsEnv = pkgs.haskellPackages_ghc783_profiling.ghcWithPackages
     (self : with self;
-      (callPackage ./. {}).nativeBuildInputs ++
+      (callPackage ./cgserver.nix {}).nativeBuildInputs ++
       [
         cabalInstall
       ]
