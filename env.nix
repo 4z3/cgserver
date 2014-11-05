@@ -1,25 +1,28 @@
+{ pkgs ? import <nixpkgs> {}
+}:
+
 let
   name = "cgserver";
   version = "1";
+
   buildInputs = with pkgs; [
     hsEnv
   ];
-  extraCmds = with pkgs; ''
+
+  extraCmds = ''
     export HISTFILE="\$HOME/.history/env-${name}"
     $(grep export ${hsEnv.outPath}/bin/ghc)
   '';
-  pkgs = import <nixpkgs> {} // (with pkgs; {
-  });
-  hsEnv = pkgs
-      .haskellPackages_ghc783_profiling
-      .ghcWithPackages (hsPkgs: with hsPkgs;
-    let
-    in
-      (callPackage ./. { devel = true; }).nativeBuildInputs ++ [
-      cabalInstall
-    ]);
+
+  hsEnv = pkgs.haskellPackages_ghc783_profiling.ghcWithPackages
+    (self : with self;
+      (callPackage ./. {}).nativeBuildInputs ++
+      [
+        cabalInstall
+      ]
+    );
+
 in pkgs.myEnvFun {
   name = "${name}-${version}";
   inherit buildInputs extraCmds;
 }
-# vim: set fdm=marker :
