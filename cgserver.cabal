@@ -1,4 +1,4 @@
-name:                   cgroup-server
+name:                   cgserver
 version:                0.1.0.0
 description:            A HTTP server that provides an API to manage cgroups.
 license:                BSD3
@@ -11,7 +11,7 @@ build-type:             Simple
 extra-source-files:     README
 cabal-version:          >=1.10
 
-executable cgroup-server
+executable cgserver
   main-is:              Main.hs
   -- other-modules:        
   other-extensions:     OverloadedStrings

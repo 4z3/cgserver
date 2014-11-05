@@ -1,5 +1,5 @@
 let
-  name = "cgroup-server";
+  name = "cgserver";
   version = "1";
   buildInputs = with pkgs; [
     hsEnv
