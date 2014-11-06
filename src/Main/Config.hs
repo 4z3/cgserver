@@ -22,6 +22,7 @@ data Config = Config
     { cgroupRoot :: FilePath
     , httpPort :: Port
     }
+  deriving Show
 
 
 -- |

@@ -48,10 +48,12 @@ import Data.Attoparsec.ByteString.Char8 (decimal, endOfInput, parseOnly)
 import qualified Data.ByteString.Char8 as BS8
 import qualified Data.ByteString.Lazy as LBS
 import Data.List (isInfixOf)
+import Data.Monoid
 import Main.Config
 import Main.Util
-import Network.Wai.Handler.Warp (run)
 import Network.Wai
+import Network.Wai.Handler.Warp (run)
+import Network.Wai.Middleware.RequestLogger (logStdout)
 import System.FilePath
 import System.IO.Error
 
@@ -75,9 +77,12 @@ main =
 
 -- | Run the application with the given configuration.
 start :: Config -> IO ()
-start c =
-    run (httpPort c) $ \req ->
-        resourceHandler (requestResource c req) req
+start c = do
+    putStrLn $ "run cgserver with " <> show c
+    run (httpPort c)
+        $ logStdout
+        $ \req ->
+            resourceHandler (requestResource c req) req
 
 
 -- | Determine which request is requested.
