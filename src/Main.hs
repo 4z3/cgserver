@@ -56,6 +56,7 @@ import Network.Wai.Handler.Warp (run)
 import Network.Wai.Middleware.RequestLogger (logStdout)
 import System.FilePath
 import System.IO.Error
+import System.IO (hFlush, stdout)
 
 
 -- | The sum of all resources known by the application.
@@ -79,10 +80,21 @@ main =
 start :: Config -> IO ()
 start c = do
     putStrLn $ "run cgserver with " <> show c
+    hFlush stdout
     run (httpPort c)
-        $ logStdout
+        $ logger
         $ \req ->
             resourceHandler (requestResource c req) req
+  where
+    logger =
+        if flushLog c
+            then flush stdout . logStdout
+            else logStdout
+
+    -- This middleware flushes the given handle after each request.
+    flush h app req respond = app req $ \res -> do
+            hFlush h
+            respond res
 
 
 -- | Determine which request is requested.

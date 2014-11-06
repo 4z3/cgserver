@@ -20,7 +20,11 @@ import Text.Read (readEither)
 
 data Config = Config
     { cgroupRoot :: FilePath
+    -- ^ Mount point of the cgroup root.
     , httpPort :: Port
+    -- ^ TCP port number for cgserver to bind to.
+    , flushLog :: Bool
+    -- ^ Whether to flush the logging buffer after each request.
     }
   deriving Show
 
@@ -33,12 +37,14 @@ data Config = Config
 --
 -- > cgroupRoot = "/sys/fs/cgroup"
 -- > httpPort = 8001
+-- > flushLog = True
 --
 defaultConfig :: IO Config
 defaultConfig =
     Config
         <$> getEnv' Right  "/sys/fs/cgroup" "cgroupRoot"
         <*> getEnv' readEither 8001 "httpPort"
+        <*> getEnv' readBool True "flushLog"
 
 
 -- | Takes a parse function, a default value, and a variable name.
@@ -53,3 +59,11 @@ getEnv' pf def name =
                 error $ "Main.Config.getEnv' " <> show name <> ": " <> err
             Right value ->
                 value
+
+
+-- | Read a JSON-style boolean ("true", "false").
+readBool :: String -> Either String Bool
+readBool x = case x of
+    "true" -> Right True
+    "false" -> Right False
+    _ -> Left $ "not a bool: " <> x
