@@ -1,5 +1,4 @@
-{ pkgs ? import <nixpkgs> {}
-}:
+{ pkgs ? import <nixpkgs> {} }:
 
 let
   name = "cgserver";
@@ -17,7 +16,7 @@ let
   '';
 
   hsEnv = pkgs.haskellPackages_ghc783_profiling.ghcWithPackages
-    (self : with self;
+    (self: with self;
       (callPackage ./cgserver.nix {}).nativeBuildInputs ++
       [
         cabalInstall
