@@ -69,7 +69,8 @@ data Resource
 -- | Run the application with the default configuration.
 -- This calls 'start' with 'defaultConfig'.
 main :: IO ()
-main = start defaultConfig
+main =
+    start =<< defaultConfig
 
 
 -- | Run the application with the given configuration.
