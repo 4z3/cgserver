@@ -3,6 +3,8 @@ cgserver
 
 cgserver is a HTTP server that provides an API to manage cgroups.
 
+Note: This package requires nixos-14.11 (nixos-unstable).
+
 
 Files in this Repository
 ========================
@@ -28,7 +30,7 @@ It can be used by:
 env.nix
 -------
 A development environment. Within the environment GHCi and cabal-install
-can be used develop cgserver. (Note: this requires nixos-unstable)
+can be used develop cgserver.
 
 The environment can be installed by:
 
