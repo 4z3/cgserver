@@ -28,7 +28,7 @@ It can be used by:
 env.nix
 -------
 A development environment. Within the environment GHCi and cabal-install
-can be used develop cgserver.
+can be used develop cgserver. (Note: this requires nixos-unstable)
 
 The environment can be installed by:
 
