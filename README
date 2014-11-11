@@ -32,7 +32,7 @@ can be used develop cgserver.
 
 The environment can be installed by:
 
-    $ nix-env -f env -i
+    $ nix-env -f env.nix -i
 
 Load the environment:
 
