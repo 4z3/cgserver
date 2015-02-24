@@ -5,10 +5,10 @@
 all: cgserver.nix
 
 build:
-	load-env-cgserver-1 cabal build
+	load-env-cgserver-2 cabal build
 
 doc:
-	load-env-cgserver-1 cabal haddock --executable
+	load-env-cgserver-2 cabal haddock --executable
 
 env:
 	nix-env -f env.nix -i

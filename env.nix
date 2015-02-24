@@ -1,8 +1,8 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  name = "cgserver";
-  version = "1";
+  pname = "cgserver";
+  version = "2";
 
   buildInputs = with pkgs; [
     hsEnv
@@ -12,15 +12,15 @@ let
     $(grep export ${hsEnv.outPath}/bin/ghc)
   '';
 
-  hsEnv = pkgs.haskellPackages_ghc783_profiling.ghcWithPackages
+  hsEnv = pkgs.haskellngPackages.ghcWithPackages
     (self: with self;
       (callPackage ./cgserver.nix {}).nativeBuildInputs ++
       [
-        cabalInstall
+        cabal-install
       ]
     );
 
 in pkgs.myEnvFun {
-  name = "${name}-${version}";
+  name = "${pname}-${version}";
   inherit buildInputs extraCmds;
 }

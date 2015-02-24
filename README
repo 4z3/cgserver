@@ -3,7 +3,7 @@ cgserver
 
 cgserver is a HTTP server that provides an API to manage cgroups.
 
-Note: This package requires nixos-14.11 (nixos-unstable).
+Note: This package was only tested with nixos-15.05 (nixos-unstable).
 
 
 Files in this Repository
